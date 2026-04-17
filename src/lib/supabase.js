@@ -12,6 +12,16 @@ export const supabase = isSupabaseConfigured
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
+        storageKey: 'elite-auth',
+      },
+      global: {
+        headers: { 'x-client-info': 'elite-clone/1.0' },
+      },
+      db: {
+        schema: 'public',
+      },
+      realtime: {
+        params: { eventsPerSecond: 2 },
       },
     })
   : null

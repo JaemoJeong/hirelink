@@ -127,7 +127,7 @@ function isTimeoutError(error) {
   return error?.code === 'REQUEST_TIMEOUT'
 }
 
-async function withTimeout(promise, timeoutMs = 2500, label = 'request') {
+async function withTimeout(promise, timeoutMs = 6000, label = 'request') {
   let timeoutId
 
   try {
