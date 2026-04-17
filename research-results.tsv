@@ -1,0 +1,52 @@
+# environment: React/Vite + Supabase app in /home/jaemo/elite-clone
+# metric_direction: higher
+# mode: loop
+# run_tag: elite-clone-foreground-autofix
+# parallel: serial
+# web_search: disabled
+# goal: Improve elite-clone product quality and operational UX through verified foreground iterations
+# scope: elite-clone/src/pages,elite-clone/src/lib,elite-clone/src/components,elite-clone/src/App.css
+# repos_json: [{"path":"/home/jaemo","role":"primary","scope":"elite-clone/src/pages,elite-clone/src/lib,elite-clone/src/components,elite-clone/src/App.css"}]
+# metric: verified_product_improvements
+# verify: npm run build
+# guard: curl -I http://localhost:4173
+# stop_condition: run until user interrupts or time budget ends
+# rollback_policy: apply_patch-only edits with manual discard before record
+iteration	commit	metric	delta	guard	status	description
+0	c03d409	0	0	-	baseline	Baseline established at 0 retained verified improvements; build already passing before loop launch.
+1	c03d409-wt1	1	+1	build-pass;localhost-200	keep	Added partner candidate spotlight panel with member drilldown, recent application/coffee chat context, and quick filters for operator triage.
+2	c03d409-wt2	2	+1	build-pass;localhost-200	keep	Added application status history to candidate dashboard cards so users can see recent stage changes and last update timestamps without opening notifications separately.
+3	c03d409-wt3	3	+1	build-pass;localhost-200	keep	Added quick draft/publish/close status actions to partner pipeline cards so operators can change job visibility without entering the full job editor.
+4	c03d409-wt4	4	+1	build-pass;localhost-200	keep	Added one-click copy actions for signup and job referral links in the partner dashboard so operators can share links without manual selection.
+5	c03d409-wt5	5	+1	build-pass;localhost-200	keep	Introduced route-level lazy loading and a shared suspense fallback so the main client bundle is split by page instead of shipping one large upfront chunk.
+6	c03d409-wt6	6	+1	build-pass;localhost-200	keep	Added member sorting controls to the partner dashboard so operators can prioritize candidates by recent activity, application volume, coffee chats, or join date.
+7	c03d409-wt7	7	+1	build-pass;localhost-200	keep	Added a recent referral link inventory to the partner dashboard so operators can review generated codes, dates, and copy active links without regenerating them.
+8	c03d409-wt8	8	+1	build-pass,localhost-200	keep	Hardened self-service profile updates so candidates cannot promote their own role or mark themselves verified, while preserving safe verification submission and auth bootstrap defaults.
+9	c03d409-wt9	9	+1	build-pass,localhost-200	keep	Added an admin ops workflow for school verification review with a protected admin RPC, notification/audit logging, and a dedicated operations dashboard route.
+10	c03d409-wt10	10	+1	build-pass,localhost-200	keep	Added a resume version browser so users can review stored resume_versions snapshots and load prior drafts back into the editor before saving a new version.
+11	c03d409-wt11	11	+1	build-pass,localhost-200	keep	Added a candidate application detail panel with job metadata, status history, cover-note context, and quick actions inside the Supabase-backed dashboard.
+12	c03d409-wt12	12	+1	build-pass,localhost-200	keep	Added an admin verification review panel with selected-request signals and quick approve/reject/save actions for faster school verification operations.
+13	c03d409-wt13	13	+1	build-pass,localhost-200	keep	Enriched partner candidate spotlight with application cover-note context, attached-resume signals, and job metadata in the applications table without adding new Supabase migrations.
+14	c03d409-wt14	14	+1	build-pass,localhost-200	keep	Added an in-app Supabase setup checklist route with migration order, runtime env summary, and admin/setup navigation so operators can verify DB setup without leaving the app.
+15	c03d409-wt15	15	+1	build-pass,localhost-200	keep	Added author-only community post editing with a Supabase update helper and inline title/body/tag editor on the post detail page while preserving stable slugs.
+16	c03d409-wt16	16	+1	build-pass,localhost-200	keep	Added author-only community comment editing by returning comment author IDs, adding a Supabase update helper, and exposing inline reply edit controls on post detail.
+17	c03d409-wt17	17	+1	build-pass,localhost-200	keep	Added explicit resume selection to the job application flow, listing saved resumes and passing the chosen resume_id into applications instead of silently using the latest draft.
+18	c03d409-wt18	18	+1	build-pass,localhost-200	keep	Added attached resume visibility to the candidate dashboard application detail by reading applications.resume_id and mapping owned resume title/template/headline metadata.
+19	c03d409-wt19	19	+1	build-pass,localhost-200	keep	Added public company directory and company profile pages backed by Supabase companies/jobs data, giving licensed partner content a first-class place without copying proprietary source text.
+20	c03d409-wt20	20	+1	build-pass,localhost-200	keep	Connected job cards and job detail company sections to the new company profile routes so company content is discoverable from the public hiring flow.
+21	c03d409-wt21	21	+1	build-pass,localhost-200	keep	Added partner-managed company profile editing with a secure Supabase RPC so public company pages can receive authorized company content without copying source text.
+22	c03d409-wt22	22	+1	build-pass,localhost-200	keep	Added secure partner resume preview access for submitted applications, letting recruiters inspect attached resume summaries through a company-membership-gated RPC and dashboard UI.
+23	c03d409-wt23	23	+1	build-pass,localhost-200	keep	Added partner event notification triggers so company members receive in-app notifications when new applications or coffee chat requests arrive.
+24	c03d409-wt24	24	+1	build-pass,localhost-200	keep	Added verification request history with candidate submission and admin review RPC support so school verification changes now keep an auditable request trail.
+25	c03d409-wt25	25	+1	build-pass,localhost-200	keep	Added community post/comment reporting with RLS-backed report records, user-facing report actions, and admin open-report metrics.
+26	c03d409-wt26	26	+1	build-pass,localhost-200	keep	Added an admin community report queue with target links and status transitions so moderators can process open post/comment reports from the ops dashboard.
+27	c03d409-wt27	27	+1	build-pass,localhost-200	keep	Added company team invite tokens with secure create/accept RPCs, partner dashboard invite management, and a protected invite acceptance route.
+28	c03d409-wt28	28	+1	build-pass,localhost-200	keep	Added a job review workflow with partner pending-review status, admin job review queue, secure job status RPC, company notifications, and setup migration tracking.
+29	c03d409-wt29	29	+1	build-pass,localhost-200	keep	Added company team member visibility to the partner dashboard so invite acceptance and existing company_members are visible alongside recent team invites.
+30	c03d409-wt30	30	+1	build-pass,localhost-200	keep	Expanded company profiles with partner-editable tagline, mission, culture, benefits, and hiring-process sections and rendered them on public company detail pages.
+31	c03d409-wt31	31	+1	build-pass,localhost-200	keep	Added backwards-compatible company profile select fallback so company directory/detail pages still load before the new 0020 profile-section columns are migrated.
+32	c03d409-wt32	32	+1	build-pass,localhost-200	keep	Added company brand asset slots for logo URL, cover image URL, and brand color across partner profile editing, public company pages, migrations, and setup tracking.
+33	c03d409-wt33	33	+1	build-pass,localhost-200	keep	Added Supabase Storage-backed company brand image uploads with a company-assets bucket migration, member-scoped storage policies, upload helper, and partner dashboard file inputs.
+34	c03d409-wt34	34	+1	build-pass,localhost-200	keep	Added private Supabase Storage resume file attachments with candidate upload UI, resume metadata tracking, partner-visible attachment metadata, and setup migration tracking.
+35	c03d409-wt35	35	+1	build-pass,localhost-200	keep	Added private resume attachment signed URL access for candidates and authorized partners, including storage read policy migration and in-app open-file actions.
+36	c03d409-wt36	36	+1	build-pass,localhost-200	keep	Added resume file access auditing for signed URL creation, wiring a secure RPC into the private attachment open flow and setup migration list.

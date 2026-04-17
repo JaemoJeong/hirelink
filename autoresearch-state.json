@@ -1,0 +1,55 @@
+{
+  "config": {
+    "direction": "higher",
+    "goal": "Improve elite-clone product quality and operational UX through verified foreground iterations",
+    "guard": "curl -I http://localhost:4173",
+    "iterations": null,
+    "metric": "verified_product_improvements",
+    "parallel_mode": "serial",
+    "repos": [
+      {
+        "path": "/home/jaemo",
+        "role": "primary",
+        "scope": "elite-clone/src/pages,elite-clone/src/lib,elite-clone/src/components,elite-clone/src/App.css"
+      }
+    ],
+    "rollback_policy": "apply_patch-only edits with manual discard before record",
+    "scope": "elite-clone/src/pages,elite-clone/src/lib,elite-clone/src/components,elite-clone/src/App.css",
+    "session_mode": "foreground",
+    "stop_condition": "run until user interrupts or time budget ends",
+    "verify": "npm run build",
+    "web_search": "disabled"
+  },
+  "mode": "loop",
+  "run_tag": "elite-clone-foreground-autofix",
+  "state": {
+    "baseline_metric": 0,
+    "best_iteration": 36,
+    "best_metric": 36,
+    "blocked": 0,
+    "consecutive_discards": 0,
+    "crashes": 0,
+    "current_labels": [],
+    "current_metric": 36,
+    "discards": 0,
+    "iteration": 36,
+    "keeps": 36,
+    "last_commit": "c03d409-wt36",
+    "last_repo_commits": {
+      "/home/jaemo": "c03d409-wt36",
+      "/home/jaemo/elite-clone": "c03d409-wt36"
+    },
+    "last_status": "keep",
+    "last_trial_commit": "c03d409-wt36",
+    "last_trial_labels": [],
+    "last_trial_metric": 36,
+    "last_trial_repo_commits": {
+      "/home/jaemo": "c03d409-wt36",
+      "/home/jaemo/elite-clone": "c03d409-wt36"
+    },
+    "no_ops": 0,
+    "pivot_count": 0
+  },
+  "updated_at": "2026-04-08T09:26:22Z",
+  "version": 1
+}
