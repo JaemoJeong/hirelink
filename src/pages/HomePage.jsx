@@ -113,7 +113,7 @@ export function HomePage() {
       <section className="feature-section section-card">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">왜 엘리트잡인가</p>
+            <p className="eyebrow">왜 HireLink인가</p>
             <h2>기존 채용 플랫폼과 다른 4가지</h2>
           </div>
           <p>
@@ -170,7 +170,7 @@ export function HomePage() {
         <div className="section-heading">
           <div>
             <p className="eyebrow">더 알아보기</p>
-            <h2>엘리트잡과 함께하는 방법</h2>
+            <h2>HireLink과 함께하는 방법</h2>
           </div>
           <p>
             학생이라면 채용 탐색을, 기업이라면 인재 채용을 시작하세요.
@@ -228,7 +228,7 @@ export function HomePage() {
           <span className="partner-pill">기업 파트너</span>
           <h2>채용이 더 쉬워지는 방법</h2>
           <p>
-            엘리트잡 파트너로 등록하면 인증된 명문대생에게
+            HireLink 파트너로 등록하면 인증된 명문대생에게
             직접 다가갈 수 있습니다.
           </p>
 

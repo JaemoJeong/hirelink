@@ -12,10 +12,10 @@ export const supabase = isSupabaseConfigured
         persistSession: true,
         autoRefreshToken: true,
         detectSessionInUrl: true,
-        storageKey: 'elite-auth',
+        storageKey: 'hirelink-auth',
       },
       global: {
-        headers: { 'x-client-info': 'elite-clone/1.0' },
+        headers: { 'x-client-info': 'hirelink/1.0' },
       },
       db: {
         schema: 'public',

@@ -129,7 +129,7 @@ export function CompanyDetailPage() {
           {company.logoUrl ? <img alt={`${company.name} 로고`} className="company-logo-preview" src={company.logoUrl} /> : null}
           <span className="compact-kicker">{company.headquarters}</span>
           <strong>공개 공고 {company.jobCount}건</strong>
-          <p>{company.isPartner ? '엘리트잡 파트너 기업' : ''}</p>
+          <p>{company.isPartner ? 'HireLink 파트너 기업' : ''}</p>
         </div>
       </section>
 

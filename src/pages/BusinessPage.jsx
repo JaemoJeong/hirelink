@@ -21,7 +21,7 @@ export function BusinessPage() {
           <h1>인증된 명문대생을 가장 빠르게 만나는 방법</h1>
           <p>
             학교 인증 기반 인재풀, 커피챗 매칭, 리퍼럴 추적까지.
-            엘리트잡으로 채용 파이프라인의 첫 단계를 바꾸세요.
+            HireLink으로 채용 파이프라인의 첫 단계를 바꾸세요.
           </p>
         </div>
         <div className="compact-hero-card dark-copy">
@@ -80,7 +80,7 @@ export function BusinessPage() {
       <section className="feature-section section-card">
         <div className="section-heading">
           <div>
-            <p className="eyebrow">왜 엘리트잡인가</p>
+            <p className="eyebrow">왜 HireLink인가</p>
             <h2>기업이 선택하는 이유</h2>
           </div>
           <p>인증된 인재풀, 대화 중심 매칭, 채용 추적을 하나로.</p>

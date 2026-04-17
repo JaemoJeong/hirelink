@@ -93,7 +93,7 @@ export function AuthPage() {
       <section className="page-hero section-card compact-hero">
         <div>
           <p className="eyebrow">로그인 · 회원가입</p>
-          <h1>엘리트잡에 오신 것을 환영합니다</h1>
+          <h1>HireLink에 오신 것을 환영합니다</h1>
           <p>
             학교 인증 기반 커리어 플랫폼에 가입하고,
             큐레이션된 채용 공고와 커피챗 매칭을 시작하세요.

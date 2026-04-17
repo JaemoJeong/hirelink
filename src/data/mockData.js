@@ -576,7 +576,7 @@ export const communityPosts = [
     excerpt:
       '복수 도메인, 졸업생 메일, 교환학생 케이스 등 반복되는 질문들을 모았습니다.',
     author: '운영팀',
-    university: '엘리트잡',
+    university: 'HireLink',
     createdAt: '2026-03-16',
     readTime: '2분 읽기',
     likes: 41,

@@ -21,7 +21,7 @@ export function SiteLayout() {
         <NavLink className="brand-mark" to="/">
           <span className="brand-dot" aria-hidden="true" />
           <span className="brand-copy">
-            <strong>엘리트잡</strong>
+            <strong>HireLink</strong>
             <span>Campus Career Network</span>
           </span>
         </NavLink>
@@ -72,7 +72,7 @@ export function SiteLayout() {
       </main>
 
       <footer className="site-footer">
-        <span>© 2026 엘리트잡. All rights reserved.</span>
+        <span>© 2026 HireLink. All rights reserved.</span>
         <span>명문대생과 기업을 연결하는 커피챗 기반 커리어 플랫폼</span>
       </footer>
     </div>

@@ -215,11 +215,11 @@ Deno.serve(async (request) => {
     body: JSON.stringify({
       from: resendFromEmail,
       to: [schoolEmail],
-      subject: `[ELITE JOB] ${university.name ?? '학교'} 이메일 인증 코드`,
+      subject: `[HireLink] ${university.name ?? '학교'} 이메일 인증 코드`,
       html: `
         <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #102348;">
           <h2 style="margin-bottom: 8px;">학교 이메일 인증 코드</h2>
-          <p>아래 6자리 코드를 ELITE JOB 학교 인증 화면에 입력해 주세요.</p>
+          <p>아래 6자리 코드를 HireLink 학교 인증 화면에 입력해 주세요.</p>
           <div style="margin: 20px 0; padding: 16px; font-size: 32px; font-weight: 700; letter-spacing: 8px; background: #f5efe2; border-radius: 14px; text-align: center;">
             ${verificationCode}
           </div>

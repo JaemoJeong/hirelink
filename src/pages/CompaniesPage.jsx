@@ -95,7 +95,7 @@ export function CompaniesPage() {
           <p className="eyebrow">기업 정보</p>
           <h1>파트너 기업을 한눈에</h1>
           <p>
-            엘리트잡 파트너 기업의 미션, 문화, 채용 정보를 비교하고
+            HireLink 파트너 기업의 미션, 문화, 채용 정보를 비교하고
             관심 기업의 공고를 바로 확인하세요.
           </p>
         </div>
