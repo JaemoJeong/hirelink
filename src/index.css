@@ -1,38 +1,55 @@
 :root {
-  color: #172033;
-  background:
-    radial-gradient(circle at top left, rgba(175, 208, 242, 0.26), transparent 28%),
-    radial-gradient(circle at top right, rgba(236, 203, 151, 0.24), transparent 26%),
-    linear-gradient(180deg, #f8f4ed 0%, #efe8de 100%);
-  font-family:
-    'Pretendard Variable', 'SUIT Variable', 'Noto Sans KR', 'Apple SD Gothic Neo',
-    sans-serif;
+  /* === Editorial Palette === */
+  --bg: #FAF8F3;
+  --bg-alt: #FFFFFF;
+  --bg-elevated: #F5F1E8;
+
+  --ink: #151515;
+  --ink-2: #5C5C5C;
+  --ink-3: #8A857B;
+
+  --divider: #E8E3D6;
+  --divider-strong: #D6CFBF;
+
+  --navy: #0F1F3D;
+  --navy-soft: #1B335C;
+  --gold: #C9A96E;
+  --gold-soft: #E8DBBE;
+  --accent: #B84A2F;
+  --success: #2F5D3D;
+
+  /* Legacy aliases kept so existing classes still read */
+  --surface: #FFFFFF;
+  --surface-strong: #FFFFFF;
+  --surface-soft: #FAF8F3;
+  --surface-muted: #F5F1E8;
+  --panel-dark: #0F1F3D;
+  --panel-dark-strong: #1B335C;
+  --accent-soft: #E8DBBE;
+  --text: #151515;
+  --muted: #5C5C5C;
+  --muted-strong: #3A3A3A;
+  --border: rgba(21, 21, 21, 0.08);
+  --border-strong: rgba(21, 21, 21, 0.14);
+
+  /* Shadows - very subtle, editorial */
+  --shadow-sm: 0 1px 0 rgba(21, 21, 21, 0.04);
+  --shadow-md: 0 1px 0 rgba(21, 21, 21, 0.04);
+  --shadow-lg: 0 8px 24px rgba(15, 31, 61, 0.06);
+
+  /* Typography */
+  --font-serif: 'Noto Serif KR', 'Newsreader', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --font-heading: var(--font-serif);
+
+  color: var(--ink);
+  background: var(--bg);
+  font-family: var(--font-sans);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --font-heading:
-    'Pretendard Variable', 'SUIT Variable', 'Noto Sans KR', 'Apple SD Gothic Neo',
-    sans-serif;
-  --bg: #f8f4ed;
-  --bg-elevated: #f2ebdf;
-  --surface: rgba(255, 255, 255, 0.92);
-  --surface-strong: #ffffff;
-  --surface-soft: #f8f4ee;
-  --surface-muted: #f2ede5;
-  --panel-dark: #122447;
-  --panel-dark-strong: #203c6d;
-  --navy: #112347;
-  --accent: #9a6323;
-  --accent-soft: #f2e3c7;
-  --text: #172033;
-  --muted: #657085;
-  --muted-strong: #4b5568;
-  --border: rgba(17, 35, 71, 0.1);
-  --border-strong: rgba(17, 35, 71, 0.16);
-  --shadow-sm: 0 12px 28px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 22px 52px rgba(15, 23, 42, 0.08);
-  --shadow-lg: 0 28px 72px rgba(15, 23, 42, 0.12);
 }
 
 * {
@@ -47,13 +64,12 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  color: var(--text);
+  color: var(--ink);
+  background: var(--bg);
   font-size: 1rem;
-  line-height: 1.6;
-  background:
-    radial-gradient(circle at top left, rgba(175, 208, 242, 0.26), transparent 28%),
-    radial-gradient(circle at top right, rgba(236, 203, 151, 0.24), transparent 26%),
-    linear-gradient(180deg, #f8f4ed 0%, #efe8de 100%);
+  line-height: 1.65;
+  font-family: var(--font-sans);
+  font-feature-settings: 'ss02' on, 'ss03' on;
 }
 
 a {
@@ -83,6 +99,6 @@ svg {
 }
 
 ::selection {
-  background: rgba(154, 99, 35, 0.16);
+  background: rgba(201, 169, 110, 0.28);
   color: var(--navy);
 }
