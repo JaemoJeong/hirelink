@@ -1,47 +1,67 @@
 :root {
-  /* === Editorial Palette === */
-  --bg: #FAF8F3;
-  --bg-alt: #FFFFFF;
-  --bg-elevated: #F5F1E8;
+  /* === Surface (neutral light gray) === */
+  --bg: #F2F2F0;
+  --bg-alt: #F8F8F7;
+  --bg-elevated: #FFFFFF;
+  --surface-dark: #0A0A0A;
+  --surface-dark-2: #1A1A1A;
 
-  --ink: #151515;
-  --ink-2: #5C5C5C;
-  --ink-3: #8A857B;
+  /* === Ink === */
+  --ink: #0A0A0A;
+  --ink-2: #4A4A4A;
+  --ink-3: #6B6B6B;
+  --ink-4: #9A9A9A;
+  --on-dark: #F2F2F0;
+  --on-dark-2: #A8A8A8;
 
-  --divider: #E8E3D6;
-  --divider-strong: #D6CFBF;
+  /* === Divider === */
+  --divider: rgba(10, 10, 10, 0.08);
+  --divider-strong: rgba(10, 10, 10, 0.22);
+  --divider-on-dark: rgba(255, 255, 255, 0.10);
+  --divider-on-dark-strong: rgba(255, 255, 255, 0.18);
 
-  --navy: #0F1F3D;
-  --navy-soft: #1B335C;
-  --gold: #C9A96E;
-  --gold-soft: #E8DBBE;
-  --accent: #B84A2F;
+  /* === Accent === */
+  --accent: #F5C842;
+  --accent-soft: #FBE89A;
   --success: #2F5D3D;
+  --danger: #B84A2F;
 
-  /* Legacy aliases kept so existing classes still read */
-  --surface: #FFFFFF;
-  --surface-strong: #FFFFFF;
-  --surface-soft: #FAF8F3;
-  --surface-muted: #F5F1E8;
-  --panel-dark: #0F1F3D;
-  --panel-dark-strong: #1B335C;
-  --accent-soft: #E8DBBE;
-  --text: #151515;
-  --muted: #5C5C5C;
-  --muted-strong: #3A3A3A;
-  --border: rgba(21, 21, 21, 0.08);
-  --border-strong: rgba(21, 21, 21, 0.14);
+  /* === Legacy aliases (existing class compat) === */
+  --surface: var(--bg-alt);
+  --surface-strong: var(--bg-elevated);
+  --surface-soft: var(--bg);
+  --surface-muted: var(--bg-alt);
+  --panel-dark: var(--surface-dark);
+  --panel-dark-strong: var(--surface-dark-2);
+  --text: var(--ink);
+  --muted: var(--ink-3);
+  --muted-strong: var(--ink-2);
+  --border: var(--divider);
+  --border-strong: var(--divider-strong);
+  --navy: var(--surface-dark);
+  --navy-soft: var(--surface-dark-2);
+  --gold: var(--accent);
+  --gold-soft: var(--accent-soft);
 
-  /* Shadows - very subtle, editorial */
-  --shadow-sm: 0 1px 0 rgba(21, 21, 21, 0.04);
-  --shadow-md: 0 1px 0 rgba(21, 21, 21, 0.04);
-  --shadow-lg: 0 8px 24px rgba(15, 31, 61, 0.06);
+  /* === Shadow === */
+  --shadow-sm: 0 1px 0 rgba(10, 10, 10, 0.04);
+  --shadow-md: 0 8px 24px rgba(10, 10, 10, 0.05);
+  --shadow-lg: 0 16px 48px rgba(10, 10, 10, 0.08);
 
-  /* Typography */
-  --font-serif: 'Noto Serif KR', 'Newsreader', Georgia, 'Times New Roman', serif;
+  /* === Radius === */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  /* === Typography ===
+     Dual treatment: Latin letters render in Fraunces (editorial serif),
+     Korean falls back to Pretendard (heavy sans). Display weight ≥700. */
+  --font-display: 'Fraunces', 'Pretendard Variable', 'Pretendard', sans-serif;
+  --font-serif: var(--font-display);
   --font-sans: 'Pretendard Variable', 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
   --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
-  --font-heading: var(--font-serif);
+  --font-heading: var(--font-display);
 
   color: var(--ink);
   background: var(--bg);
@@ -69,7 +89,6 @@ body {
   font-size: 1rem;
   line-height: 1.65;
   font-family: var(--font-sans);
-  font-feature-settings: 'ss02' on, 'ss03' on;
 }
 
 a {
@@ -99,6 +118,6 @@ svg {
 }
 
 ::selection {
-  background: rgba(201, 169, 110, 0.28);
-  color: var(--navy);
+  background: rgba(245, 200, 66, 0.4);
+  color: var(--ink);
 }

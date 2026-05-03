@@ -107,20 +107,28 @@ export function JobDetailPage() {
           <p className="eyebrow">{job.company}</p>
           <h1>{job.title}</h1>
           <p>{job.companyIntro || job.summary}</p>
-        </div>
-        <div className="compact-hero-card">
-          <span className="compact-kicker">포지션 정보</span>
-          {job.companySlug ? (
-            <Link className="text-link company-profile-link" to={`/companies/${job.companySlug}`}>{job.company}</Link>
-          ) : (
-            <strong>{job.company}</strong>
-          )}
-          <div className="job-detail-row">
+          <div className="job-detail-row" style={{ marginTop: 16 }}>
             <span>{job.role}</span>
             <span>{job.location}</span>
             <span>{job.arrangement}</span>
           </div>
         </div>
+        <aside className="compact-hero-card detail-hero-card">
+          <div className="detail-kpis detail-hero-kpis">
+            <article><strong>마감</strong><span>{job.deadline}</span></article>
+            <article><strong>경력</strong><span>{job.experience}</span></article>
+            <article><strong>학력</strong><span>{job.education}</span></article>
+            <article><strong>근무</strong><span>{job.arrangement}</span></article>
+          </div>
+          <div className="detail-hero-actions">
+            {user ? (
+              <a className="primary-button full-width" href="#apply">지원하기</a>
+            ) : (
+              <Link className="primary-button full-width" to="/auth">로그인 후 지원하기</Link>
+            )}
+            <Link className="text-link detail-hero-back" to="/jobs">← 공고 목록</Link>
+          </div>
+        </aside>
       </section>
 
       <section className="detail-layout">
@@ -166,14 +174,7 @@ export function JobDetailPage() {
           ) : null}
         </article>
 
-        <aside className="section-card detail-aside-card">
-          <div className="detail-kpis">
-            <article><strong>마감</strong><span>{job.deadline}</span></article>
-            <article><strong>경력</strong><span>{job.experience}</span></article>
-            <article><strong>학력</strong><span>{job.education}</span></article>
-            <article><strong>근무</strong><span>{job.arrangement}</span></article>
-          </div>
-
+        <aside className="section-card detail-aside-card" id="apply">
           {status.message ? (
             <div className={`status-banner status-${status.tone}`}>
               <strong>{status.tone === 'success' ? '완료' : status.tone === 'error' ? '오류' : '안내'}</strong>
@@ -211,11 +212,7 @@ export function JobDetailPage() {
                 </button>
               </div>
             </div>
-          ) : (
-            <div className="sidebar-actions stacked">
-              <Link className="primary-button" to="/auth">로그인 후 지원하기</Link>
-            </div>
-          )}
+          ) : null}
 
           {profile?.verification_status !== 'verified' && user ? (
             <div className="detail-panel-card">
@@ -224,8 +221,6 @@ export function JobDetailPage() {
               <Link className="text-link" to="/verify">학교 인증하기</Link>
             </div>
           ) : null}
-
-          <Link className="text-link" to="/jobs">← 공고 목록</Link>
         </aside>
       </section>
     </>

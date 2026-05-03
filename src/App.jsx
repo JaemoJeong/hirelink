@@ -1,8 +1,25 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
 import './App.css'
 import { ProtectedRoute } from './components/ProtectedRoute.jsx'
 import { SiteLayout } from './components/SiteLayout.jsx'
+
+function ScrollToTop() {
+  const { pathname, hash } = useLocation()
+
+  useEffect(() => {
+    if (hash) {
+      const target = document.getElementById(hash.slice(1))
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        return
+      }
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname, hash])
+
+  return null
+}
 
 const AuthPage = lazy(() => import('./pages/AuthPage.jsx').then((module) => ({ default: module.AuthPage })))
 const BusinessPage = lazy(() => import('./pages/BusinessPage.jsx').then((module) => ({ default: module.BusinessPage })))
@@ -39,6 +56,7 @@ function RouteFallback() {
 function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Suspense fallback={<RouteFallback />}>
         <Routes>
           <Route element={<SiteLayout />}>
