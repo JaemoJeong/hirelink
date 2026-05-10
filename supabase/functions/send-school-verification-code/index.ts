@@ -230,17 +230,24 @@ Deno.serve(async (request) => {
     }),
   })
 
-  let emailSent = false
+  if (!resendResponse.ok) {
+    // Remove the challenge so the code cannot be reused if email fails
+    await adminClient
+      .from('school_email_verification_challenges')
+      .delete()
+      .eq('id', challenge.id)
 
-  if (resendResponse.ok) {
-    emailSent = true
+    return jsonResponse(
+      { error: '인증 메일 발송에 실패했습니다. 잠시 후 다시 시도해 주세요.' },
+      502,
+    )
   }
 
   return jsonResponse({
     challengeId: challenge.id,
     maskedEmail: maskEmail(schoolEmail),
     expiresAt: challenge.expires_at,
-    emailSent,
-    ...(!emailSent || debugReturnCode ? { debugCode: verificationCode } : {}),
+    emailSent: true,
+    ...(debugReturnCode ? { debugCode: verificationCode } : {}),
   })
 })

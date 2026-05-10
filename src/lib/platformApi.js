@@ -840,51 +840,18 @@ export async function requestSchoolEmailVerificationCode({
   const normalizedEmail = String(schoolEmail ?? '').trim().toLowerCase()
   const parsedGraduationYear = Number.parseInt(String(graduationYear ?? '').trim(), 10)
 
-  const rpcParams = {
-    target_university_id: universityId,
-    target_school_email: normalizedEmail,
-    target_major: String(major ?? '').trim() || null,
-    target_graduation_year: Number.isNaN(parsedGraduationYear) ? null : parsedGraduationYear,
-    target_headline: String(headline ?? '').trim() || null,
-    target_bio: String(bio ?? '').trim() || null,
-  }
-
   const edgeFnBody = {
     universityId,
     schoolEmail: normalizedEmail,
-    major: rpcParams.target_major,
-    graduationYear: rpcParams.target_graduation_year,
-    headline: rpcParams.target_headline,
-    bio: rpcParams.target_bio,
+    major: String(major ?? '').trim() || null,
+    graduationYear: Number.isNaN(parsedGraduationYear) ? null : parsedGraduationYear,
+    headline: String(headline ?? '').trim() || null,
+    bio: String(bio ?? '').trim() || null,
   }
 
-  let data = null
-  let error = null
-
-  const edgeResult = await supabase.functions.invoke('send-school-verification-code', { body: edgeFnBody })
-
-  if (edgeResult.error) {
-    const msg = String(edgeResult.error.message ?? '')
-    const edgeFnUnavailable =
-      /edge function/i.test(msg) ||
-      /failed to send a request/i.test(msg) ||
-      /non-2xx status code/i.test(msg) ||
-      /fetch/i.test(msg)
-
-    if (edgeFnUnavailable) {
-      const rpcResult = await supabase.rpc('dev_request_school_email_verification_code', rpcParams).single()
-
-      if (rpcResult.error) {
-        return { data: null, error: new Error(rpcResult.error.message) }
-      }
-
-      data = rpcResult.data
-    } else {
-      error = edgeResult.error
-    }
-  } else {
-    data = edgeResult.data
-  }
+  const { data, error } = await supabase.functions.invoke('send-school-verification-code', {
+    body: edgeFnBody,
+  })
 
   if (error) {
     return { data: null, error: new Error(error.message || '인증 코드를 보내지 못했습니다.') }
@@ -899,6 +866,9 @@ export async function requestSchoolEmailVerificationCode({
       challengeId: data?.challengeId ?? '',
       maskedEmail: data?.maskedEmail ?? normalizedEmail,
       expiresAt: data?.expiresAt ?? '',
+      // debugCode is intentionally NOT passed through. It only appears when
+      // ALLOW_DEV_VERIFICATION_CODE_RESPONSE=true is set on the Edge Function
+      // for local development.
       debugCode: data?.debugCode ?? '',
     },
     error: null,

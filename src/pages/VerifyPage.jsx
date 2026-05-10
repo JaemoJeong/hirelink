@@ -168,9 +168,7 @@ export function VerifyPage() {
     setVerificationCode('')
     setStatus({
       tone: 'success',
-      message: data?.debugCode
-        ? `인증 코드: ${data.debugCode} (메일 발송이 불가한 환경이라 화면에 표시합니다)`
-        : `인증 코드를 ${next.maskedEmail} 로 보냈습니다. 메일함을 확인하세요.`,
+      message: `인증 코드를 ${next.maskedEmail} 로 보냈습니다. 메일함을 확인해 주세요.`,
     })
     setSendingCode(false)
   }
