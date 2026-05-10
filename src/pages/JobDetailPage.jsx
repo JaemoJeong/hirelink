@@ -1,6 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { fetchJobBySlug, fetchMyApplication, submitApplication, withdrawApplication } from '../lib/platformApi.js'
+import {
+  fetchJobBySlug,
+  fetchMyApplication,
+  fetchResumeDraft,
+  listUniversities,
+  submitApplication,
+  withdrawApplication,
+} from '../lib/platformApi.js'
 import { useAuth } from '../providers/AuthProvider.jsx'
 
 const applicationStatusLabelMap = {
@@ -16,6 +23,21 @@ function isWithdrawableApplication(status) {
   return ['submitted', 'reviewing', 'interview'].includes(status)
 }
 
+function tokenize(text) {
+  if (!text) return []
+  return String(text)
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]+/gu, ' ')
+    .split(/\s+/)
+    .filter((t) => t.length >= 2)
+}
+
+function autoMatchRequirement(reqText, profileBlob) {
+  const tokens = tokenize(reqText)
+  if (!tokens.length || !profileBlob) return false
+  return tokens.some((t) => profileBlob.includes(t))
+}
+
 export function JobDetailPage() {
   const { slug } = useParams()
   const { user, profile } = useAuth()
@@ -26,6 +48,9 @@ export function JobDetailPage() {
   const [submitting, setSubmitting] = useState(false)
   const [withdrawSubmitting, setWithdrawSubmitting] = useState(false)
   const [status, setStatus] = useState({ tone: 'neutral', message: '' })
+  const [resumeDraft, setResumeDraft] = useState(null)
+  const [universities, setUniversities] = useState([])
+  const [overrideMatches, setOverrideMatches] = useState({})
 
   useEffect(() => {
     let ignore = false
@@ -45,6 +70,74 @@ export function JobDetailPage() {
     loadJobDetail()
     return () => { ignore = true }
   }, [slug, user?.id])
+
+  useEffect(() => {
+    let ignore = false
+    async function loadProfileExtras() {
+      if (!user?.id) {
+        setResumeDraft(null)
+        return
+      }
+      const [draftRes, uniRes] = await Promise.all([
+        fetchResumeDraft(user.id).catch(() => ({ data: null })),
+        listUniversities().catch(() => []),
+      ])
+      if (ignore) return
+      setResumeDraft(draftRes?.data ?? null)
+      setUniversities(Array.isArray(uniRes) ? uniRes : [])
+    }
+    loadProfileExtras()
+    return () => { ignore = true }
+  }, [user?.id])
+
+  const universityName = useMemo(() => {
+    if (!profile?.university_id) return ''
+    return universities.find((u) => u.id === profile.university_id)?.name ?? ''
+  }, [profile?.university_id, universities])
+
+  const profileBlob = useMemo(() => {
+    if (!user?.id) return ''
+    const content = resumeDraft?.content ?? {}
+    return [
+      profile?.full_name,
+      universityName,
+      content.school,
+      content.major,
+      content.headline,
+      content.summary,
+      content.impact,
+      content.experience,
+      content.links,
+      resumeDraft?.headline,
+      resumeDraft?.summary,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase()
+  }, [user?.id, profile?.full_name, universityName, resumeDraft])
+
+  const requirementMatches = useMemo(() => {
+    if (!job?.requirements) return []
+    return job.requirements.map((req, idx) => {
+      const auto = autoMatchRequirement(req, profileBlob)
+      const overridden = overrideMatches[idx]
+      const matched = overridden === undefined ? auto : overridden
+      return { req, idx, auto, matched }
+    })
+  }, [job?.requirements, profileBlob, overrideMatches])
+
+  const matchedCount = requirementMatches.filter((m) => m.matched).length
+  const totalCount = requirementMatches.length
+  const matchPercent = totalCount ? Math.round((matchedCount / totalCount) * 100) : 0
+
+  function toggleMatch(idx) {
+    setOverrideMatches((curr) => {
+      const current = curr[idx]
+      const auto = requirementMatches.find((m) => m.idx === idx)?.auto ?? false
+      const next = current === undefined ? !auto : !current
+      return { ...curr, [idx]: next }
+    })
+  }
 
   async function handleApply() {
     if (!user?.id || !job) return
@@ -175,6 +268,89 @@ export function JobDetailPage() {
         </article>
 
         <aside className="section-card detail-aside-card" id="apply">
+          <div className="detail-match-card">
+            <header className="detail-match-head">
+              <p className="eyebrow">— 프로필 매칭</p>
+              <h3>지원 자격 매칭</h3>
+              {totalCount > 0 ? (
+                <p className="detail-match-summary">
+                  자격 요건 <strong>{matchedCount}</strong> / {totalCount} 충족 ({matchPercent}%)
+                </p>
+              ) : null}
+            </header>
+
+            {totalCount > 0 ? (
+              <div className="detail-match-progress" aria-hidden="true">
+                <span style={{ width: `${matchPercent}%` }} />
+              </div>
+            ) : null}
+
+            {user ? (
+              <ul className="detail-match-profile">
+                <li>
+                  <span className="detail-match-label">이름</span>
+                  <span className="detail-match-value">{profile?.full_name ?? '미입력'}</span>
+                </li>
+                <li>
+                  <span className="detail-match-label">학교</span>
+                  <span className="detail-match-value">
+                    {universityName || resumeDraft?.content?.school || '미연결'}
+                  </span>
+                </li>
+                <li>
+                  <span className="detail-match-label">전공</span>
+                  <span className="detail-match-value">{resumeDraft?.content?.major || '미입력'}</span>
+                </li>
+                <li>
+                  <span className="detail-match-label">인증</span>
+                  <span className={`detail-match-value${profile?.verification_status === 'verified' ? ' is-ok' : ''}`}>
+                    {profile?.verification_status === 'verified' ? '완료' : '미인증'}
+                  </span>
+                </li>
+              </ul>
+            ) : (
+              <div className="detail-match-empty">
+                <p>로그인하면 내 프로필을 자격 요건과 자동으로 비교해 드립니다.</p>
+                <Link className="text-link" to="/auth">로그인하고 매칭 보기</Link>
+              </div>
+            )}
+
+            {totalCount > 0 ? (
+              <ul className="detail-match-list">
+                {requirementMatches.map(({ req, idx, matched }) => (
+                  <li key={`${idx}-${req}`}>
+                    <button
+                      type="button"
+                      className={`detail-match-row${matched ? ' is-matched' : ''}`}
+                      onClick={() => toggleMatch(idx)}
+                      aria-pressed={matched}
+                      aria-label={matched ? '매칭 해제' : '매칭으로 표시'}
+                    >
+                      <span className="detail-match-mark" aria-hidden="true">
+                        {matched ? (
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M2 6.5 5 9.5 10 3.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                          </svg>
+                        ) : (
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M3 6h6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                          </svg>
+                        )}
+                      </span>
+                      <span className="detail-match-text">{req}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            {user ? (
+              <div className="detail-match-actions">
+                <Link className="text-link" to="/me">프로필 보강하기</Link>
+              </div>
+            ) : null}
+          </div>
+
           {status.message ? (
             <div className={`status-banner status-${status.tone}`}>
               <strong>{status.tone === 'success' ? '완료' : status.tone === 'error' ? '오류' : '안내'}</strong>
