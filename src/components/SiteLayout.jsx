@@ -44,9 +44,6 @@ export function SiteLayout() {
               <NavLink className="ghost-link" to="/me">
                 마이페이지
               </NavLink>
-              <NavLink className="ghost-link" to="/admin">
-                관리자
-              </NavLink>
               <button className="solid-link header-button" type="button" onClick={handleSignOut}>
                 로그아웃
               </button>

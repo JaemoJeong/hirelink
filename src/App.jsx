@@ -34,13 +34,6 @@ const HomePage = lazy(() => import('./pages/HomePage.jsx').then((module) => ({ d
 const JobDetailPage = lazy(() => import('./pages/JobDetailPage.jsx').then((module) => ({ default: module.JobDetailPage })))
 const JobsPage = lazy(() => import('./pages/JobsPage.jsx').then((module) => ({ default: module.JobsPage })))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx').then((module) => ({ default: module.NotFoundPage })))
-const AdminApplicationsPage = lazy(() =>
-  import('./pages/AdminApplicationsPage.jsx').then((module) => ({ default: module.AdminApplicationsPage })),
-)
-const AdminPanelPage = lazy(() =>
-  import('./pages/AdminPanelPage.jsx').then((module) => ({ default: module.AdminPanelPage })),
-)
-const PartnerPage = lazy(() => import('./pages/PartnerPage.jsx').then((module) => ({ default: module.PartnerPage })))
 const VerifyPage = lazy(() => import('./pages/VerifyPage.jsx').then((module) => ({ default: module.VerifyPage })))
 
 function RouteFallback() {
@@ -80,30 +73,6 @@ function App() {
               element={
                 <ProtectedRoute>
                   <VerifyPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute>
-                  <AdminPanelPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/admin/applications"
-              element={
-                <ProtectedRoute>
-                  <AdminApplicationsPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/partner-dashboard"
-              element={
-                <ProtectedRoute>
-                  <PartnerPage />
                 </ProtectedRoute>
               }
             />
