@@ -668,6 +668,7 @@ function normalizeJobRow(job, companyMap, tagMap) {
     tags,
     publishedAt: job.published_at,
     createdAt: job.created_at,
+    applyUrl: job.apply_url ?? null,
     isMock: false,
     source: 'supabase',
   }
@@ -956,7 +957,7 @@ export async function listJobs() {
       supabase
         .from('jobs')
         .select(
-          'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status',
+          'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url',
         )
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
@@ -1061,7 +1062,7 @@ export async function listCompanies() {
     const jobResult = await withTimeout(
       supabase
         .from('jobs')
-        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status')
+        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url')
         .in('company_id', companyIds)
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
@@ -1182,7 +1183,7 @@ export async function fetchCompanyBySlug(slug) {
     const jobResult = await withTimeout(
       supabase
         .from('jobs')
-        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status')
+        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url')
         .eq('company_id', companyRow.id)
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
@@ -1410,7 +1411,7 @@ export async function fetchJobBySlug(slug) {
   const { data: jobRow, error } = await supabase
     .from('jobs')
     .select(
-      'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status',
+      'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url',
     )
     .eq('slug', slug)
     .maybeSingle()

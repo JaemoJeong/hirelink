@@ -214,7 +214,11 @@ export function JobDetailPage() {
             <article><strong>근무</strong><span>{job.arrangement}</span></article>
           </div>
           <div className="detail-hero-actions">
-            {user ? (
+            {job.applyUrl ? (
+              <a className="primary-button full-width" href={job.applyUrl} target="_blank" rel="noopener noreferrer">
+                외부 사이트에서 지원하기 ↗
+              </a>
+            ) : user ? (
               <a className="primary-button full-width" href="#apply">지원하기</a>
             ) : (
               <Link className="primary-button full-width" to="/auth">로그인 후 지원하기</Link>
@@ -374,7 +378,17 @@ export function JobDetailPage() {
             </div>
           ) : null}
 
-          {user ? (
+          {job.applyUrl ? (
+            <div className="detail-panel-card" id="apply">
+              <h3>지원하기</h3>
+              <p>외부 채용 사이트에서 지원할 수 있습니다.</p>
+              <div className="sidebar-actions stacked">
+                <a className="primary-button full-width" href={job.applyUrl} target="_blank" rel="noopener noreferrer">
+                  외부 사이트로 이동 ↗
+                </a>
+              </div>
+            </div>
+          ) : user ? (
             <div className="detail-panel-card">
               <h3>지원하기</h3>
               <p>간단한 메모와 함께 지원하세요. 커피챗을 통해 더 자세한 대화를 나눌 수 있습니다.</p>
