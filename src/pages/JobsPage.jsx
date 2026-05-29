@@ -2,6 +2,7 @@ import { startTransition, useDeferredValue, useEffect, useMemo, useState } from 
 import { Link } from 'react-router-dom'
 import { getJobListSnapshot, listJobs, listSavedJobs, toggleSavedJob } from '../lib/platformApi.js'
 import { useAuth } from '../providers/AuthProvider.jsx'
+import { trackSearch } from '../lib/analytics.js'
 
 export function JobsPage() {
   const { user } = useAuth()
@@ -28,6 +29,13 @@ export function JobsPage() {
     loadJobBoard()
     return () => { ignore = true }
   }, [])
+
+  useEffect(() => {
+    const q = deferredSearch.trim()
+    if (!q) return
+    const handle = setTimeout(() => trackSearch({ query: q, surface: 'jobs' }), 1000)
+    return () => clearTimeout(handle)
+  }, [deferredSearch])
 
   useEffect(() => {
     let ignore = false

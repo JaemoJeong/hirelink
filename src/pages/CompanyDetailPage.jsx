@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { createCompanyInfoRequest, fetchCompanyBySlug, listCompanyInfoRequests } from '../lib/platformApi.js'
+import { trackCompanyView } from '../lib/analytics.js'
 import { useAuth } from '../providers/AuthProvider.jsx'
 
 function getCompanyInfoScore(company) {
@@ -39,6 +40,15 @@ export function CompanyDetailPage() {
     loadCompany()
     return () => { ignore = true }
   }, [slug])
+
+  useEffect(() => {
+    if (!company?.slug) return
+    trackCompanyView({
+      slug: company.slug,
+      name: company.name,
+      category: company.category,
+    })
+  }, [company?.slug])
 
   useEffect(() => {
     let ignore = false

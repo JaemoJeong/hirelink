@@ -9,6 +9,7 @@ import {
   withdrawApplication,
 } from '../lib/platformApi.js'
 import { useAuth } from '../providers/AuthProvider.jsx'
+import { trackApplyClick, trackJobView } from '../lib/analytics.js'
 
 const applicationStatusLabelMap = {
   submitted: '지원 완료',
@@ -73,6 +74,16 @@ export function JobDetailPage() {
     loadJobDetail()
     return () => { ignore = true }
   }, [slug, user?.id])
+
+  useEffect(() => {
+    if (!job?.slug) return
+    trackJobView({
+      slug: job.slug,
+      company: job.company,
+      category: job.category,
+      applyUrlPresent: Boolean(job.applyUrl),
+    })
+  }, [job?.slug])
 
   useEffect(() => {
     let ignore = false
@@ -218,7 +229,13 @@ export function JobDetailPage() {
           </div>
           <div className="detail-hero-actions">
             {job.applyUrl ? (
-              <a className="primary-button full-width" href={job.applyUrl} target="_blank" rel="noopener noreferrer">
+              <a
+                className="primary-button full-width"
+                href={job.applyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackApplyClick({ slug: job.slug, company: job.company, applyUrl: job.applyUrl })}
+              >
                 외부 사이트에서 지원하기 ↗
               </a>
             ) : user ? (
@@ -386,7 +403,13 @@ export function JobDetailPage() {
               <h3>지원하기</h3>
               <p>외부 채용 사이트에서 지원할 수 있습니다.</p>
               <div className="sidebar-actions stacked">
-                <a className="primary-button full-width" href={job.applyUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  className="primary-button full-width"
+                  href={job.applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackApplyClick({ slug: job.slug, company: job.company, applyUrl: job.applyUrl })}
+                >
                   외부 사이트로 이동 ↗
                 </a>
               </div>
