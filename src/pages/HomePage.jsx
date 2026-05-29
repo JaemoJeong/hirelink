@@ -1,22 +1,36 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   businessPartners,
   communityPosts,
   features,
-  jobs,
+  jobs as mockJobs,
   journey,
   schools,
 } from '../data/mockData.js'
+import { getJobListSnapshot, listJobs } from '../lib/platformApi.js'
 
 const QUICK_CATEGORIES = ['전체', '개발', '금융', '컨설팅', '기획', '마케팅']
 
 export function HomePage() {
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
+  const [jobs, setJobs] = useState(() => {
+    const cached = getJobListSnapshot()
+    return cached?.length ? cached : mockJobs
+  })
   const spotlight = jobs[0]
   const thisWeek = jobs.slice(1, 7)
   const insights = communityPosts.slice(0, 3)
+
+  useEffect(() => {
+    let ignore = false
+    listJobs().then(({ data }) => {
+      if (ignore || !data?.length) return
+      setJobs(data)
+    })
+    return () => { ignore = true }
+  }, [])
 
   function handleSearchSubmit(e) {
     e.preventDefault()
