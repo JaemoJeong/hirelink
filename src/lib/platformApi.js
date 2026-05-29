@@ -957,11 +957,11 @@ export async function listJobs() {
       supabase
         .from('jobs')
         .select(
-          'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url',
+          'id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, deadline_at, published_at, created_at, status, apply_url',
         )
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
-      2500,
+      6000,
       'listJobs',
     )
 
@@ -1062,11 +1062,11 @@ export async function listCompanies() {
     const jobResult = await withTimeout(
       supabase
         .from('jobs')
-        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, description, responsibilities, requirements, perks, deadline_at, published_at, created_at, status, apply_url')
+        .select('id, company_id, slug, title, role, location, arrangement, experience_label, education_label, summary, deadline_at, published_at, created_at, status, apply_url')
         .in('company_id', companyIds)
         .eq('status', 'published')
         .order('published_at', { ascending: false }),
-      2200,
+      6000,
       'listCompaniesJobs',
     )
 
