@@ -1443,12 +1443,23 @@ export async function fetchMyApplication(jobId, userId) {
     return { data: null, error: null }
   }
 
-  return supabase
-    .from('applications')
-    .select('id, status, applied_at, resume_id, cover_note')
-    .eq('job_id', jobId)
-    .eq('user_id', userId)
-    .maybeSingle()
+  try {
+    return await withTimeout(
+      supabase
+        .from('applications')
+        .select('id, status, applied_at, resume_id, cover_note')
+        .eq('job_id', jobId)
+        .eq('user_id', userId)
+        .maybeSingle(),
+      6000,
+      'fetchMyApplication',
+    )
+  } catch (error) {
+    if (isTimeoutError(error)) {
+      return { data: null, error: null }
+    }
+    throw error
+  }
 }
 
 export async function listSavedJobs(userId) {

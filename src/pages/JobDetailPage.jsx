@@ -56,16 +56,19 @@ export function JobDetailPage() {
     let ignore = false
     async function loadJobDetail() {
       setLoading(true)
-      const { data: nextJob } = await fetchJobBySlug(slug)
-      if (ignore) return
-      setJob(nextJob ?? null)
-      if (nextJob && user?.id) {
-        const { data: nextApp } = await fetchMyApplication(nextJob.id, user.id)
-        if (!ignore) setApplication(nextApp ?? null)
-      } else if (!ignore) {
-        setApplication(null)
+      try {
+        const { data: nextJob } = await fetchJobBySlug(slug)
+        if (ignore) return
+        setJob(nextJob ?? null)
+        if (nextJob && user?.id) {
+          const { data: nextApp } = await fetchMyApplication(nextJob.id, user.id)
+          if (!ignore) setApplication(nextApp ?? null)
+        } else if (!ignore) {
+          setApplication(null)
+        }
+      } finally {
+        if (!ignore) setLoading(false)
       }
-      if (!ignore) setLoading(false)
     }
     loadJobDetail()
     return () => { ignore = true }
